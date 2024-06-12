@@ -7,6 +7,7 @@ import (
 	"os"
 
 	dbConfig "github.com/fajarcandraaa/dating_app_be/config/database"
+	"github.com/fajarcandraaa/dating_app_be/mocking"
 	"github.com/gorilla/mux"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
@@ -45,7 +46,8 @@ func (s *Serve) Initialize(dbDriver, dbUser, dbPass, dbPort, dbHost, dbName stri
 	}
 
 	//Migration proccess
-	s.DB.Debug().AutoMigrate(registry...) //database migration
+	s.DB.AutoMigrate(registry...) //database migration
+	mocking.SeedData(s.DB)
 
 	s.Router = mux.NewRouter()
 

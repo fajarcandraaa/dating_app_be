@@ -12,9 +12,6 @@ import (
 	userUsecase "github.com/fajarcandraaa/dating_app_be/internal/usecase/user"
 )
 
-type UserHandlerContract interface {
-}
-
 type UserHandler struct {
 	authUsecase userUsecase.UserAuthUsecaseContract
 }
@@ -56,5 +53,33 @@ func (h *UserHandler) LoginUser(w http.ResponseWriter, r *http.Request) {
 		Error: "",
 	}
 
-	responder.SuccessJSON(w, resp, http.StatusOK, "login success")
+	responder.SuccessJSONV2(w, resp.Data, http.StatusOK, "login success")
+}
+
+func (h *UserHandler) Registration(w http.ResponseWriter, r *http.Request) {
+	var (
+		payloadRegistration userPresentation.RegistrationRequest
+		responder           = helpers.NewHTTPResponse("registrationUser")
+		ctx                 = context.Background()
+	)
+
+	body, err := io.ReadAll(r.Body)
+	if err != nil {
+		responder.ErrorWithStatusCode(w, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	err = json.Unmarshal(body, &payloadRegistration)
+	if err != nil {
+		responder.ErrorWithStatusCode(w, http.StatusUnprocessableEntity, err.Error())
+		return
+	}
+
+	err = h.authUsecase.SignUp(ctx, &payloadRegistration)
+	if err != nil {
+		responder.FieldErrors(w, err, http.StatusUnprocessableEntity, err.Error())
+		return
+	}
+
+	responder.SuccessWithoutData(w, http.StatusCreated, "registration success")
 }

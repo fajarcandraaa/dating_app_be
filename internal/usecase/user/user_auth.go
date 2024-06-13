@@ -8,7 +8,9 @@ import (
 	"time"
 
 	"github.com/fajarcandraaa/dating_app_be/config/auth"
-	"github.com/fajarcandraaa/dating_app_be/internal/presentation/user"
+	"github.com/fajarcandraaa/dating_app_be/internal/dto"
+	userEntity "github.com/fajarcandraaa/dating_app_be/internal/entity/user"
+	userPresentation "github.com/fajarcandraaa/dating_app_be/internal/presentation/user"
 	"github.com/fajarcandraaa/dating_app_be/internal/repository"
 	"github.com/go-redis/redis/v8"
 	"github.com/pkg/errors"
@@ -29,7 +31,7 @@ func NewAuthUsecase(repo *repository.Repositories, rds *redis.Client) *authUseCa
 var _ UserAuthUsecaseContract = &authUseCase{}
 
 // Login implements UserUsecaseContract.
-func (u *authUseCase) LogIn(ctx context.Context, payload *user.LoginRequest) (*string, error) {
+func (u *authUseCase) LogIn(ctx context.Context, payload *userPresentation.LoginRequest) (*string, error) {
 	var (
 		expiration = 1 * 24 * time.Hour
 	)
@@ -56,4 +58,23 @@ func (u *authUseCase) LogIn(ctx context.Context, payload *user.LoginRequest) (*s
 	}()
 
 	return &getToken, nil
+}
+
+// SignUp implements UserAuthUsecaseContract.
+func (u *authUseCase) SignUp(ctx context.Context, payload *userPresentation.RegistrationRequest) error {
+	userPayload, accountPayload, err := dto.TransforRegistrationToDatabase(*payload)
+	if err != nil {
+		return err
+	}
+	err = userEntity.UserRequestValidate(userPayload)
+	if err != nil {
+		return err
+	}
+
+	err = u.repo.User.SignUp(ctx, *userPayload, *accountPayload)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

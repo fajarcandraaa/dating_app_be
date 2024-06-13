@@ -5,6 +5,8 @@ import (
 
 	"github.com/google/uuid"
 	"gorm.io/gorm"
+
+	validation "github.com/go-ozzo/ozzo-validation/v4"
 )
 
 type Error string
@@ -16,6 +18,10 @@ const (
 	ErrUsersCredentialNotExist  = Error("domain.user.error.credential_not_exist")
 	ErrUsersUnprocessableEntity = Error("domain.user.error.unprocessable_entity")
 )
+
+func (e Error) Error() string {
+	return string(e)
+}
 
 type (
 	User struct {
@@ -37,3 +43,14 @@ type (
 		UpdatedAt   *time.Time `gorm:"default:CURRENT_TIMESTAMP"`
 	}
 )
+
+// UserRequestValidate is to validate input request
+func UserRequestValidate(ur *User) error {
+	err := validation.Errors{
+		"name":     validation.Validate(&ur.FirstName, validation.Required),
+		"email":    validation.Validate(&ur.Email, validation.Required),
+		"domicilie": validation.Validate(&ur.Domicilie, validation.Required),
+	}
+
+	return err.Filter()
+}

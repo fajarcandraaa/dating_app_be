@@ -66,7 +66,53 @@ func (r *UserRepository) SignIn(ctx context.Context, payload userPresentation.Lo
 		}
 	}
 
-	dtoUser := dto.UserEntityToPresent(&userData)
+	dtoUser := dto.TransformEntityToPresentation(&userData)
 
 	return &dtoUser, nil
 }
+
+// SignUp implements UserRepositoryContract.
+func (r *UserRepository) SignUp(ctx context.Context, payload userEntity.User, payloadAccount accountEntity.Account) error {
+	tx := r.db.Begin()
+	err := tx.Create(&payload).Error
+	if err != nil {
+		tx.Rollback()
+		parsed := r.codeError.ParseSQLError(err)
+		switch parsed {
+		case database.ErrUniqueViolation:
+			return userEntity.ErrUserAlreadyExist
+		default:
+			return errors.Wrap(parsed, "build statement query to insert user from database")
+		}
+	}
+
+	err = tx.Create(&payloadAccount).Error
+	if err != nil {
+		tx.Rollback()
+		parsed := r.codeError.ParseSQLError(err)
+		switch parsed {
+		case database.ErrUniqueViolation:
+			return userEntity.ErrUserAlreadyExist
+		default:
+			return errors.Wrap(parsed, "build statement query to insert user account from database")
+		}
+	}
+
+	tx.Commit()
+	return nil
+}
+
+// NewAccount implements UserRepositoryContract.
+// func (r *UserRepository) newAccount(ctx context.Context, payload accountEntity.Account) error {
+// 	err := r.db.Create(&payload).Error
+// 	if err != nil {
+// 		parsed := r.codeError.ParseSQLError(err)
+// 		switch parsed {
+// 		case database.ErrUniqueViolation:
+// 			return userEntity.ErrUserAlreadyExist
+// 		default:
+// 			return errors.Wrap(parsed, "build statement query to insert user account from database")
+// 		}
+// 	}
+// 	return nil
+// }

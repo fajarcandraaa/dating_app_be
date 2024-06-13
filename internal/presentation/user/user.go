@@ -1,21 +1,25 @@
 package user
 
-import "github.com/google/uuid"
+import (
+	"github.com/fajarcandraaa/dating_app_be/internal/entity/user"
+	"github.com/google/uuid"
+)
 
 type (
 	User struct {
-		Id          uuid.UUID `json:"id"`
-		FirstName   string    `json:"first_name"`
-		LastName    string    `json:"last_name"`
-		UserCode    string    `json:"user_code"`
-		Email       string    `json:"email"`
-		Phone       string    `json:"phone"`
-		Image       string    `json:"image"`
-		Dob         string    `json:"dob"`
-		Domicilie   string    `json:"domicilie"`
-		Address     string    `json:"address"`
-		PackageId   int       `json:"package_id"`
-		FeatureCode string    `json:"feature_code"`
+		Id          uuid.UUID       `json:"id"`
+		FirstName   string          `json:"first_name"`
+		LastName    string          `json:"last_name"`
+		UserCode    string          `json:"user_code"`
+		Email       string          `json:"email"`
+		Phone       string          `json:"phone"`
+		Image       string          `json:"image"`
+		Dob         string          `json:"dob"`
+		Domicilie   string          `json:"domicilie"`
+		Address     string          `json:"address"`
+		Gender      user.UserGender `json:"gender"`
+		PackageId   int             `json:"package_id"`
+		FeatureCode string          `json:"feature_code"`
 	}
 )
 type (
@@ -33,6 +37,7 @@ type (
 		Dob       string `json:"dob"`
 		Domicilie string `json:"domicilie"`
 		Address   string `json:"address"`
+		Gender    string `json:"gender"`
 		Username  string `json:"username"`
 		Password  string `json:"password"`
 	}

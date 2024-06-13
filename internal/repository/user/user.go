@@ -101,18 +101,3 @@ func (r *UserRepository) SignUp(ctx context.Context, payload userEntity.User, pa
 	tx.Commit()
 	return nil
 }
-
-// NewAccount implements UserRepositoryContract.
-// func (r *UserRepository) newAccount(ctx context.Context, payload accountEntity.Account) error {
-// 	err := r.db.Create(&payload).Error
-// 	if err != nil {
-// 		parsed := r.codeError.ParseSQLError(err)
-// 		switch parsed {
-// 		case database.ErrUniqueViolation:
-// 			return userEntity.ErrUserAlreadyExist
-// 		default:
-// 			return errors.Wrap(parsed, "build statement query to insert user account from database")
-// 		}
-// 	}
-// 	return nil
-// }

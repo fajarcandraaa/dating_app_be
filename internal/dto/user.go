@@ -1,6 +1,7 @@
 package dto
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/fajarcandraaa/dating_app_be/helpers"
@@ -96,9 +97,17 @@ func TransformPresentationToEntity(user userPresentation.User) userEntity.User {
 }
 
 func TransforRegistrationToDatabase(data userPresentation.RegistrationRequest) (*userEntity.User, *accountEntity.Account, error) {
+	// var userGender string
 	userId := uuid.New()
 	userCode := helpers.GenerateUserCode()
 	defaultPackageId := 1
+	if data.Gender != string(userEntity.UserMale) {
+		if data.Gender != string(userEntity.UserFemale) {
+			return nil, nil, fmt.Errorf("gender is unidentified")
+		}
+	}
+
+	gend := data.Gender
 	respUser := userEntity.User{
 		Id:          &userId,
 		FirstName:   &data.FirstName,
@@ -110,6 +119,7 @@ func TransforRegistrationToDatabase(data userPresentation.RegistrationRequest) (
 		Dob:         &data.Dob,
 		Domicilie:   &data.Domicilie,
 		Address:     &data.Address,
+		Gender:      &gend,
 		PackageId:   &defaultPackageId,
 		FeatureCode: nil,
 		CreatedAt:   &time.Time{},

@@ -33,7 +33,13 @@ func FakeUsers() []*user.User {
 		fakeUsersData []*user.User
 	)
 
-	for i := 0; i <= 10; i++ {
+	for i := 0; i <= 20; i++ {
+		var fakeGender user.UserGender
+		if i%2 == 0 {
+			fakeGender = user.UserFemale
+		} else {
+			fakeGender = user.UserMale
+		}
 		fakeUserId := uuid.New()
 		fakeLastName := fmt.Sprintf("00%d", i)
 		fakeUserCode := helpers.GenerateUserCode()
@@ -49,6 +55,7 @@ func FakeUsers() []*user.User {
 			Dob:       &FakeDob,
 			Domicilie: &FakeDomicilie,
 			Address:   &FakeAddress,
+			Gender:    (*string)(&fakeGender),
 			PackageId: &FakePackageId,
 		}
 

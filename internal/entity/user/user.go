@@ -23,6 +23,13 @@ func (e Error) Error() string {
 	return string(e)
 }
 
+type UserGender string
+
+const (
+	UserMale   UserGender = "male"
+	UserFemale UserGender = "female"
+)
+
 type (
 	User struct {
 		*gorm.DeletedAt
@@ -37,6 +44,7 @@ type (
 		Dob         *string    `json:"dob" gorm:"size:255;"`
 		Domicilie   *string    `json:"domicilie" gorm:"size:255;"`
 		Address     *string    `json:"address" gorm:"size:255;"`
+		Gender      *string    `json:"gender" gorm:"size:10;"`
 		PackageId   *int       `json:"package_id" gorm:"size:10;"`
 		FeatureCode *string    `json:"feature_code" gorm:"size:50;"`
 		CreatedAt   *time.Time `gorm:"default:CURRENT_TIMESTAMP"`
@@ -47,9 +55,10 @@ type (
 // UserRequestValidate is to validate input request
 func UserRequestValidate(ur *User) error {
 	err := validation.Errors{
-		"name":     validation.Validate(&ur.FirstName, validation.Required),
-		"email":    validation.Validate(&ur.Email, validation.Required),
+		"name":      validation.Validate(&ur.FirstName, validation.Required),
+		"email":     validation.Validate(&ur.Email, validation.Required),
 		"domicilie": validation.Validate(&ur.Domicilie, validation.Required),
+		"gender":    validation.Validate(&ur.Gender, validation.Required),
 	}
 
 	return err.Filter()

@@ -31,7 +31,7 @@ func seedAccount(db *gorm.DB) error {
 func seedPackage(db *gorm.DB) error {
 	fakePackages := FakePackageData()
 	for _, data := range fakePackages {
-		err := db.Debug().Create(&data).Error
+		err := db.Create(&data).Error
 		if err != nil {
 			return err
 		}
@@ -43,7 +43,7 @@ func seedPackage(db *gorm.DB) error {
 func seedPremiFeature(db *gorm.DB) error {
 	fakePremiPackages := FakePremiumPackage()
 	for _, data := range fakePremiPackages {
-		err := db.Debug().Create(&data).Error
+		err := db.Create(&data).Error
 		if err != nil {
 			return err
 		}

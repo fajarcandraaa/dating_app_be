@@ -7,6 +7,16 @@ import (
 	"gorm.io/gorm"
 )
 
+type Error string
+
+const (
+	//User Error
+	ErrUserNotExist             = Error("domain.user.error.not_exist")
+	ErrUserAlreadyExist         = Error("domain.user.error.email_or_username_alredy_exist")
+	ErrUsersCredentialNotExist  = Error("domain.user.error.credential_not_exist")
+	ErrUsersUnprocessableEntity = Error("domain.user.error.unprocessable_entity")
+)
+
 type (
 	User struct {
 		*gorm.DeletedAt

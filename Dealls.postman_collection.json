@@ -1,0 +1,492 @@
+{
+	"info": {
+		"_postman_id": "df5155b6-94a3-47bf-89b9-121d5479d984",
+		"name": "Dealls",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5474719",
+		"_collection_link": "https://mind2screen.postman.co/workspace/Candra's-Workspace~fa0abd79-e0cf-4da0-ab83-553613157e44/collection/5474719-df5155b6-94a3-47bf-89b9-121d5479d984?action=share&source=collection_link&creator=5474719"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"signup001\",\n    \"password\":\"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\":\"user001\",\n    \"password\":\"123456\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/login",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 13 Jun 2024 08:15:40 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "278"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"SUCCESS\",\n    \"state\": \"Success\",\n    \"message\": \"login success\",\n    \"data\": {\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE3MTgyNzYwNjQsInVzZXJfY29kZSI6IndkMXFkTWUiLCJ1c2VyX2lkIjoiZDNiNGFiNGYtYmY0Ny00ZjNkLWI5MmItMGMwODI3NDc4MzExIn0.hjoM5pl6HVVvW4CzPmrG3T2UkGr8WJljeav7e4jG0WU\"\n    }\n}"
+						},
+						{
+							"name": "404 : Record not found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\":\"user0012\",\n    \"password\":\"123456\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/login",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 13 Jun 2024 08:18:20 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "115"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"ERROR\",\n    \"message\": \"build statement query to login from database: record not found\",\n    \"errors\": {}\n}"
+						},
+						{
+							"name": "404 : Wrong password",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\":\"user001\",\n    \"password\":\"123456asdasd\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/login",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 13 Jun 2024 08:18:41 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "70"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"ERROR\",\n    \"message\": \"password is wrong\",\n    \"errors\": {}\n}"
+						},
+						{
+							"name": "422 : Unprocessable Entity",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\":\"user001\",\n    \"password\":123456\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/login",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "Unprocessable Entity",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 13 Jun 2024 08:19:39 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "158"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 422,\n    \"status\": \"ERROR\",\n    \"state\": \"Error\",\n    \"message\": \"Json: Cannot Unmarshal Number Into Go Struct Field LoginRequest.Password Of Type String\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Sign Up",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"first_name\":\"user signup test\",\n    \"last_name\":\"001\",\n    \"email\":\"usersignup01@email.com\",\n    \"phone\":\"0812345678911\",\n    \"dob\":\"02/09/2000\",\n    \"domicilie\":\"Yogyakarta\",\n    \"address\":\"jl. Raya Itu berbahaya\",\n    \"gender\":\"male\",\n    \"username\":\"signup001\",\n    \"password\":\"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/registration",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"registration"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "201",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"first_name\":\"user signup test\",\n    \"last_name\":\"001\",\n    \"email\":\"usersignup01@email.com\",\n    \"phone\":\"0812345678911\",\n    \"dob\":\"02/09/2000\",\n    \"domicilie\":\"Yogyakarta\",\n    \"address\":\"jl. Raya Itu berbahaya\",\n    \"username\":\"signup001\",\n    \"password\":\"123456\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/registration",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"registration"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 13 Jun 2024 13:08:28 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "81"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"SUCCESS\",\n    \"state\": \"Success\",\n    \"message\": \"registration success\"\n}"
+						},
+						{
+							"name": "422",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"last_name\":\"001\",\n    \"email\":\"usersignup01@email.com\",\n    \"phone\":\"0812345678911\",\n    \"dob\":\"02/09/2000\",\n    \"domicilie\":\"Yogyakarta\",\n    \"address\":\"jl. Raya Itu berbahaya\",\n    \"username\":\"signup001\",\n    \"password\":\"123456\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/registration",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"registration"
+									]
+								}
+							},
+							"status": "Unprocessable Entity",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 13 Jun 2024 13:09:56 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "105"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"ERROR\",\n    \"message\": \"name: cannot be blank.\",\n    \"errors\": {\n        \"name\": \"cannot be blank\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE3MTgzNzI5NzIsInVzZXJfY29kZSI6IjduNDZBZUgiLCJ1c2VyX2lkIjoiMjE3ZDhkNzctOTk4NC00MThhLTg0YzQtODdmNWQxNmRjYjM1In0.XMGQE5aCtj0xnXOiquu2CrftPuOigcCLr3ydp3tIq4c"
+							}
+						],
+						"url": {
+							"raw": "localhost:8080/view",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"view"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE3MTgzNDcxODQsInVzZXJfY29kZSI6IjduNDZBZUgiLCJ1c2VyX2lkIjoiMjE3ZDhkNzctOTk4NC00MThhLTg0YzQtODdmNWQxNmRjYjM1In0.P4UEq8clDEEtloAISuHQ78LTsM9DKMriYpvYYWVr91s"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/view",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"view"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 14 Jun 2024 05:40:07 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "432"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"SUCCESS\",\n    \"state\": \"Success\",\n    \"message\": \"get profile\",\n    \"data\": {\n        \"id\": \"d5b79625-5cd1-4132-a92e-7069fdeafc06\",\n        \"first_name\": \"User\",\n        \"last_name\": \"004\",\n        \"user_code\": \"cF3KiBJ\",\n        \"email\": \"user004@email.com\",\n        \"phone\": \"0812345678910\",\n        \"image\": \"\",\n        \"dob\": \"01/01/1980\",\n        \"domicilie\": \"Indonesia\",\n        \"address\": \"Jl.Raya Hati-Hati Ya\",\n        \"gender\": \"female\",\n        \"package_id\": 1,\n        \"feature_code\": \"\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Package",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE3MTgzNjY0OTYsInVzZXJfY29kZSI6IjduNDZBZUgiLCJ1c2VyX2lkIjoiMjE3ZDhkNzctOTk4NC00MThhLTg0YzQtODdmNWQxNmRjYjM1In0.BknbEIGwJegD9KEtpKIheEziFpXYg0uFTlcMFt6aM_E"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"package_id\":2,\n    \"feature_code\":\"NQA\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/package/217d8d77-9984-418a-84c4-87f5d16dcb35",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"package",
+								"217d8d77-9984-418a-84c4-87f5d16dcb35"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE3MTgzNjY0OTYsInVzZXJfY29kZSI6IjduNDZBZUgiLCJ1c2VyX2lkIjoiMjE3ZDhkNzctOTk4NC00MThhLTg0YzQtODdmNWQxNmRjYjM1In0.BknbEIGwJegD9KEtpKIheEziFpXYg0uFTlcMFt6aM_E"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"package_id\":2,\n    \"feature_code\":\"NQA\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/package/217d8d77-9984-418a-84c4-87f5d16dcb35",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"package",
+										"217d8d77-9984-418a-84c4-87f5d16dcb35"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 14 Jun 2024 11:02:54 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "81"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"SUCCESS\",\n    \"state\": \"Success\",\n    \"message\": \"buy packages success\"\n}"
+						}
+					]
+				}
+			]
+		}
+	]
+}

@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+	"strings"
 
 	"github.com/fajarcandraaa/dating_app_be/helpers"
 	"github.com/fajarcandraaa/dating_app_be/internal/presentation"
@@ -14,10 +15,11 @@ import (
 
 type UserHandler struct {
 	authUsecase userUsecase.UserAuthUsecaseContract
+	infoUsecase userUsecase.UserInfoUsecaseContract
 }
 
-func NewUserHandler(authUsecase userUsecase.UserAuthUsecaseContract) *UserHandler {
-	return &UserHandler{authUsecase}
+func NewUserHandler(authUsecase userUsecase.UserAuthUsecaseContract, infoUsecase userUsecase.UserInfoUsecaseContract) *UserHandler {
+	return &UserHandler{authUsecase, infoUsecase}
 }
 
 func (h *UserHandler) LoginUser(w http.ResponseWriter, r *http.Request) {
@@ -82,4 +84,31 @@ func (h *UserHandler) Registration(w http.ResponseWriter, r *http.Request) {
 	}
 
 	responder.SuccessWithoutData(w, http.StatusCreated, "registration success")
+}
+
+func (h *UserHandler) RandomProfile(w http.ResponseWriter, r *http.Request) {
+	var (
+		responder = helpers.NewHTTPResponse("getRandomProfile")
+		ctx       = context.Background()
+		authToken = r.Header.Get("Authorization")
+	)
+
+	if len(strings.Split(authToken, " ")) != 2 {
+		responder.ErrorWithStatusCode(w, http.StatusUnprocessableEntity, "please check your token authorization")
+		return
+	}
+	token := strings.Split(authToken, " ")[1]
+	parseToken, err := helpers.ParseToken(token)
+	if err != nil {
+		responder.ErrorWithStatusCode(w, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	resp, err := h.infoUsecase.GetRandomProfile(ctx, parseToken.UserCode)
+	if err != nil {
+		responder.ErrorWithStatusCode(w, http.StatusUnprocessableEntity, err.Error())
+		return
+	}
+
+	responder.SuccessJSONV2(w, resp, http.StatusOK, "get profile")
 }

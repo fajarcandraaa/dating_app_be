@@ -11,4 +11,6 @@ import (
 type UserRepositoryContract interface {
 	SignIn(ctx context.Context, payload userPresentation.LoginRequest) (*userPresentation.User, error)
 	SignUp(ctx context.Context, payload userEntity.User, payloadAccount account.Account) error
+
+	GetRandom(ctx context.Context, gender userEntity.UserGender, userCode string, execptionUserCode []string) (*userEntity.User, error)
 }

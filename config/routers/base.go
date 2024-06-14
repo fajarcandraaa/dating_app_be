@@ -46,8 +46,8 @@ func (s *Serve) Initialize(dbDriver, dbUser, dbPass, dbPort, dbHost, dbName stri
 	}
 
 	//Migration proccess
-	s.DB.AutoMigrate(registry...) //database migration
-	mocking.SeedData(s.DB)
+	_ = s.DB.AutoMigrate(registry...) //database migration
+	_ = mocking.SeedData(s.DB)
 
 	s.Router = mux.NewRouter()
 

@@ -8,12 +8,15 @@ import (
 
 type UsecaseContract struct {
 	UserAuthContract user.UserAuthUsecaseContract
+	UserInfoContract user.UserInfoUsecaseContract
 }
 
 func NewUsecaseService(repo *repository.Repositories, rds *redis.Client) *UsecaseContract {
 	userAuthUsecase := user.NewAuthUsecase(repo, rds)
+	userInfoUsecase := user.NewUserInfoUsecase(repo, rds)
 
 	return &UsecaseContract{
 		UserAuthContract: userAuthUsecase,
+		UserInfoContract: userInfoUsecase,
 	}
 }

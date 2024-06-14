@@ -1,13 +1,18 @@
 package helpers
 
 import (
+	"encoding/json"
 	"errors"
+	"fmt"
 	"math"
 	"math/rand"
+	"os"
 	"strings"
 	"time"
 	"unicode"
 
+	"github.com/dgrijalva/jwt-go"
+	"github.com/fajarcandraaa/dating_app_be/internal/presentation"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -74,4 +79,29 @@ func GenerateUserCode() string {
 		shortKey[i] = charset[rand.Intn(len(charset))]
 	}
 	return string(shortKey)
+}
+
+func ParseToken(t string) (*presentation.ClaimTokenUser, error) {
+	var claimToken presentation.ClaimTokenUser
+	token, err := jwt.Parse(t, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+		}
+		return []byte(os.Getenv("API_SECRET")), nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		b, err := json.MarshalIndent(claims, "", " ")
+		if err != nil {
+			return nil, err
+		}
+
+		_ = json.Unmarshal(b, &claimToken)
+
+		return &claimToken, nil
+	}
+
+	return nil, fmt.Errorf("Error parse token")
 }

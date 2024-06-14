@@ -2,6 +2,8 @@ package user
 
 import (
 	"context"
+	"math/rand"
+	"time"
 
 	"github.com/pkg/errors"
 
@@ -100,4 +102,39 @@ func (r *UserRepository) SignUp(ctx context.Context, payload userEntity.User, pa
 
 	tx.Commit()
 	return nil
+}
+
+// GetRandom implements UserRepositoryContract.
+func (r *UserRepository) GetRandom(ctx context.Context, gender userEntity.UserGender, userCode string, execptionUserCode []string) (*userEntity.User, error) {
+	var (
+		count            int64
+		user             userEntity.User
+		errCount, errGet error
+	)
+
+	lenExeption := len(execptionUserCode)
+
+	if lenExeption == 0 {
+		errCount = r.db.Debug().Model(userEntity.User{}).Where("gender != ? AND user_code != ?", string(gender), userCode).Count(&count).Error
+	} else {
+		errCount = r.db.Debug().Model(userEntity.User{}).Where("gender != ? AND user_code != ? AND user_code NOT IN ?", string(gender), userCode, execptionUserCode).Count(&count).Error
+	}
+
+	if errCount != nil {
+		return nil, errCount
+	}
+
+	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
+	offset := rng.Intn(int(count))
+
+	if lenExeption == 0 {
+		errGet = r.db.Debug().Offset(offset).Where("gender != ? AND user_code != ?", string(gender), userCode).First(&user).Error
+	} else {
+		errGet = r.db.Debug().Offset(offset).Where("gender != ? AND user_code != ? AND user_code NOT IN ?", string(gender), userCode, execptionUserCode).First(&user).Error
+	}
+
+	if errGet != nil {
+		return nil, errGet
+	}
+	return &user, nil
 }

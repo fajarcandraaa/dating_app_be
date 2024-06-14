@@ -12,7 +12,9 @@ import (
 )
 
 func TransformEntityToPresentation(user *userEntity.User) userPresentation.User {
-	var resp userPresentation.User
+	var (
+		resp userPresentation.User
+	)
 
 	if user.Id != nil {
 		resp.Id = *user.Id
@@ -43,6 +45,9 @@ func TransformEntityToPresentation(user *userEntity.User) userPresentation.User 
 	}
 	if user.Address != nil {
 		resp.Address = *user.Address
+	}
+	if user.Gender != nil {
+		resp.Gender = userEntity.UserGender(*user.Gender)
 	}
 	if user.PackageId != nil {
 		resp.PackageId = *user.PackageId
@@ -85,6 +90,9 @@ func TransformPresentationToEntity(user userPresentation.User) userEntity.User {
 	}
 	if user.Address != "" {
 		resp.Address = &user.Address
+	}
+	if user.Gender != "" {
+		resp.Gender = (*string)(&user.Gender)
 	}
 	if user.PackageId != 0 {
 		resp.PackageId = &user.PackageId

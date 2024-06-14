@@ -7,6 +7,9 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 // StatusAPIXXX are statuses for API Response.
@@ -127,8 +130,11 @@ func NewHTTPResponse(entity string) *API {
 }
 
 func formatState(status string) string {
-	status = strings.Title(strings.ToLower(status))
-	return status
+	// status = strings.Title(strings.ToLower(status))
+	// status = cases.Title(strings.ToLower(status))
+	lowerStr := strings.ToLower(status)
+	c := cases.Title(language.English)
+	return c.String(lowerStr)
 }
 
 // ============================= HANDLE SUCCESS RESPONSE ===================================
@@ -203,7 +209,7 @@ func (a *API) SuccessJSON(w http.ResponseWriter, data interface{}, code int, mes
 	a.statusCode = code
 	response := data
 
-	SuccessResponseJSON(w, a.statusCode, response)
+	_ = SuccessResponseJSON(w, a.statusCode, response)
 }
 
 // Success returns response format for success state.
@@ -217,7 +223,7 @@ func (a *API) SuccessJSONV2(w http.ResponseWriter, data interface{}, code int, m
 		Data: data,
 	}
 
-	SuccessResponseJSONV2(w, a.statusCode, response)
+	_ = SuccessResponseJSONV2(w, a.statusCode, response)
 }
 
 // SuccessWithMeta returns response format for success state but with metadata.
@@ -225,7 +231,7 @@ func (a *API) SuccessWithMeta(w http.ResponseWriter, data interface{}, meta Pagi
 	res := a.Success(data, code, message)
 	res.Meta = meta
 
-	SuccessResponseJSONV2(w, res.statusCode, res)
+	_ = SuccessResponseJSONV2(w, res.statusCode, res)
 }
 
 // SuccessWithoutData returns response format for success state without data.
@@ -237,7 +243,7 @@ func (a *API) SuccessWithoutData(w http.ResponseWriter, code int, message string
 	response := &APISuccess{
 		API: a,
 	}
-	SuccessResponseJSONV2(w, a.statusCode, response)
+	_ = SuccessResponseJSONV2(w, a.statusCode, response)
 }
 
 // ============================= ======================= ===================================
@@ -291,7 +297,7 @@ func (a *API) ErrorJSON(w http.ResponseWriter, code int, message string) {
 		API: a,
 	}
 
-	ErrorResponseJSON(w, a.statusCode, response)
+	_ = ErrorResponseJSON(w, a.statusCode, response)
 }
 
 // FieldErrors returns response format error.
@@ -299,21 +305,22 @@ func (a *API) FieldErrors(w http.ResponseWriter, err error, code int, message st
 	fe := a.Error(code, message)
 	fe.Errors = err
 
-	ErrorResponseJSON(w, fe.statusCode, fe)
+	_ = ErrorResponseJSON(w, fe.statusCode, fe)
 }
 
 // ErrorWithStatusCode returns response format error.
 func (a *API) ErrorWithStatusCode(w http.ResponseWriter, code int, message string) {
+	c := cases.Title(language.English)
 	a.statusCode = code
 	a.Code = code
 	a.Status = StatusAPIError
-	a.Message = strings.Title(message)
+	a.Message = c.String(message)
 	a.State = formatState(a.Status)
 	response := &APIError{
 		API: a,
 	}
 
-	ErrorResponseJSON(w, a.statusCode, response)
+	_ = ErrorResponseJSON(w, a.statusCode, response)
 }
 
 // ============================= ======================= ===================================
@@ -370,7 +377,7 @@ func (a *API) FailureJSON(w http.ResponseWriter, err error, code int) {
 		causer: nil,
 	}
 
-	FailureResponseJSON(w, a.statusCode, response)
+	_ = FailureResponseJSON(w, a.statusCode, response)
 }
 
 // ============================= ======================= ===================================

@@ -7,6 +7,16 @@ import (
 	"gorm.io/gorm"
 )
 
+type SubscribtionPackage int
+type FeaturePackage string
+
+const (
+	PackageNonPremi      SubscribtionPackage = 1
+	PackagePremium       SubscribtionPackage = 2
+	FeatureNoQuota       FeaturePackage      = "NQA"
+	FeatureVerifiedLabel FeaturePackage      = "VL"
+)
+
 type (
 	Package struct {
 		*gorm.DeletedAt

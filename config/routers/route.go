@@ -20,4 +20,5 @@ func (se *Serve) initializeRoutes() {
 	s := usecase.NewUsecaseService(r, rds)
 
 	userRouter(se, s)
+	accountRoute(se, s)
 }

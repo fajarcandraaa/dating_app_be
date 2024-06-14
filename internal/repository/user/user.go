@@ -124,6 +124,10 @@ func (r *UserRepository) GetRandom(ctx context.Context, gender userEntity.UserGe
 		return nil, errCount
 	}
 
+	if count == 0 {
+		return nil, database.ErrNoRowsFound
+	}
+
 	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
 	offset := rng.Intn(int(count))
 
